@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 class AceptPermisosScreen extends StatefulWidget {
   @override
   _AceptPermisosScreenState createState() => _AceptPermisosScreenState();
 }
 
-class _AceptPermisosScreenState extends State<AceptPermisosScreen>
-    with SingleTickerProviderStateMixin {
+class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -41,14 +39,7 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen>
             },
           ),
         ],
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(icon: Icon(Icons.person), text: "Solicitudes de Permiso"),
-            Tab(icon: Icon(Icons.check_circle), text: "Aprobadas"),
-          ],
-        ),
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 166, 235, 102),
       ),
       body: TabBarView(
         controller: _tabController,
@@ -101,13 +92,14 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen>
           ),
         ],
         onTap: (index) {
-          _tabController.animateTo(index);
+          _tabController.animateTo(index); // Cambiar entre las vistas
         },
         currentIndex: _tabController.index,
       ),
     );
   }
 }
+
 
 
 
