@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'acept-permisos.dart'; // Importa la pantalla de permisos
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -33,8 +34,13 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               onPressed: () {
-                // Aquí iría la lógica para la autenticación con Google
-                print('Iniciar sesión con Google');
+                // Navegación a la pantalla de permisos
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AceptPermisosScreen(), // Llama a la pantalla de permisos
+                  ),
+                );
               },
             ),
           ],
@@ -43,6 +49,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
 
 
 
