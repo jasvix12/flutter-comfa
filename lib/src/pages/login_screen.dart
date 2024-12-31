@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'acept-permisos.dart'; // Importa la pantalla de permisos
+import 'acept-permisos.dart'; // Asegúrate de importar la pantalla de permisos
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 217, 236, 12), // Fondo verde claro
+      backgroundColor: Color.fromARGB(255, 217, 236, 12), 
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +38,12 @@ class LoginScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AceptPermisosScreen(), // Llama a la pantalla de permisos
+                    builder: (context) => AceptPermisosScreen(
+                      motivo: 'Permiso por motivos personales', // Ejemplo de parámetro
+                      fecha: '2024-12-31', // Ejemplo de parámetro
+                      horaSalida: '08:00', // Ejemplo de parámetro
+                      horaLlegada: '17:00', // Ejemplo de parámetro
+                    ),
                   ),
                 );
               },
@@ -49,6 +54,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
 
 
 

@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
+import 'pedir-permisos.dart'; // Importa la pantalla pedir-permisos.dart
+import 'login_screen.dart'; // Asegúrate de importar la pantalla de login
 
 class AceptPermisosScreen extends StatefulWidget {
+  final String motivo;
+  final String fecha;
+  final String horaSalida;
+  final String horaLlegada;
+
+  AceptPermisosScreen({
+    required this.motivo,
+    required this.fecha,
+    required this.horaSalida,
+    required this.horaLlegada,
+  });
+
   @override
   _AceptPermisosScreenState createState() => _AceptPermisosScreenState();
 }
@@ -24,18 +38,18 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Permisos Comfacauca"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context); // Regresar a la pantalla anterior
+        title: const Text("Permisos Comfacauca"),
+        leading: GestureDetector(
+          onTap: () {
+            _showLogoutDialog(context); // Mostrar el cuadro de diálogo cuando se presiona el logo
           },
+          child: Image.asset('assets/images/comlogo.png'), // Solo el logo
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.power_settings_new),
+            icon: const Icon(Icons.power_settings_new),
             onPressed: () {
-              // Acción para cerrar sesión
+              _showLogoutDialog(context); // Mostrar cuadro de diálogo para confirmar cierre de sesión
             },
           ),
         ],
@@ -44,9 +58,8 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
       body: TabBarView(
         controller: _tabController,
         children: [
-          // Primera pestaña: Solicitudes de Permiso
           ListView(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             children: [
               Card(
                 shape: RoundedRectangleBorder(
@@ -54,8 +67,8 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
                 ),
                 elevation: 2,
                 child: ListTile(
-                  leading: Icon(Icons.add_box, color: Colors.green),
-                  title: Text("Nueva solicitud de permiso"),
+                  leading: const Icon(Icons.add_box, color: Colors.green),
+                  title: const Text("Nueva solicitud de permiso"),
                   onTap: () {
                     // Acción para abrir la solicitud
                   },
@@ -63,42 +76,93 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
               ),
             ],
           ),
-
-          // Segunda pestaña: Aprobadas
           Center(
             child: Text(
-              "No hay permisos aprobados",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              "Motivo: ${widget.motivo}\nFecha: ${widget.fecha}\nHora de Salida: ${widget.horaSalida}\nHora de Llegada: ${widget.horaLlegada}",
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Acción para agregar nueva solicitud
+          _navigateWithAnimation(context); // Navegación con animación
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: "Solicitudes",
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        color: Colors.green.withOpacity(0.7),
+        child: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(icon: Icon(Icons.book), text: "Solicitudes"),
+            Tab(icon: Icon(Icons.check), text: "Aprobadas"),
+          ],
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white70,
+          indicatorColor: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  // Método para mostrar el cuadro de diálogo de logout
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cerrar sesión'),
+        content: const Text('¿Estás seguro de que deseas cerrar sesión?'),
+        actions: [
+          TextButton(
+            child: const Text('Cancelar'),
+            onPressed: () {
+              Navigator.pop(context); // Cierra el diálogo sin hacer nada
+            },
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check),
-            label: "Aprobadas",
+          TextButton(
+            child: const Text('Aceptar'),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()), // Redirigir al login
+              );
+            },
           ),
         ],
-        onTap: (index) {
-          _tabController.animateTo(index); // Cambiar entre las vistas
+      ),
+    );
+  }
+
+  // Método para navegar con animación
+  void _navigateWithAnimation(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => PedirPermisosScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+          return SlideTransition(position: offsetAnimation, child: child);
         },
-        currentIndex: _tabController.index,
       ),
     );
   }
 }
+
+
+
+
+
+
+
 
 
 
