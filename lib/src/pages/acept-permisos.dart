@@ -116,23 +116,56 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Cerrar sesión'),
-        content: const Text('¿Estás seguro de que deseas cerrar sesión?'),
-        actions: [
-          TextButton(
-            child: const Text('Cancelar'),
-            onPressed: () {
-              Navigator.pop(context); // Cierra el diálogo sin hacer nada
-            },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0), // Bordes redondeados
+        ),
+        backgroundColor: Colors.white, // Fondo blanco para el diálogo
+        title: const Text(
+          'Cerrar sesión',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.redAccent, // Color para el título
           ),
-          TextButton(
-            child: const Text('Aceptar'),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()), // Redirigir al login
-              );
-            },
+        ),
+        content: const Text(
+          '¿Estás seguro de que deseas cerrar sesión?',
+          style: TextStyle(color: Colors.black87), // Color del texto
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Cierra el diálogo sin hacer nada
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 244, 19, 19), // Fondo gris para el botón de Cancelar
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
+                    ),
+                  ),
+                  child: const Text('Cancelar', style: TextStyle(color: Colors.white)),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()), // Redirigir al login
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green, // Fondo verde para el botón de Aceptar
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
+                    ),
+                  ),
+                  child: const Text('Aceptar', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -156,6 +189,7 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
     );
   }
 }
+
 
 
 
