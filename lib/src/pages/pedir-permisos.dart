@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'acept-permisos.dart'; // Importa la pantalla AceptPermisosScreen
 
@@ -12,6 +12,10 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
   String _horaSalida = "5:21 PM";
   String _horaLlegada = "5:21 PM";
   String _motivoSeleccionado = "";
+  double _chipSizePersonal = 1.0;
+  double _chipSizeSalud = 1.0;
+  double _chipSizeEstudio = 1.0;
+  double _chipSizeLaboral = 1.0;
 
   // Método para seleccionar una fecha
   Future<void> _selectDate(BuildContext context) async {
@@ -127,21 +131,85 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                GestureDetector(
-                  onTap: () => _selectMotivo("Personal"),
-                  child: _buildChip("Personal", Icons.bedtime, Colors.red),
+                MouseRegion(
+                  onEnter: (_) {
+                    setState(() {
+                      _chipSizePersonal = 1.2; // Aumenta el tamaño cuando pasa el mouse
+                    });
+                  },
+                  onExit: (_) {
+                    setState(() {
+                      _chipSizePersonal = 1.0; // Vuelve al tamaño normal
+                    });
+                  },
+                  child: GestureDetector(
+                    onTap: () => _selectMotivo("Personal"),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      transform: Matrix4.identity()..scale(_chipSizePersonal),
+                      child: _buildChip("Personal", Icons.bedtime, Colors.red),
+                    ),
+                  ),
                 ),
-                GestureDetector(
-                  onTap: () => _selectMotivo("Salud"),
-                  child: _buildChip("Salud", Icons.health_and_safety, Colors.green),
+                MouseRegion(
+                  onEnter: (_) {
+                    setState(() {
+                      _chipSizeSalud = 1.2;
+                    });
+                  },
+                  onExit: (_) {
+                    setState(() {
+                      _chipSizeSalud = 1.0;
+                    });
+                  },
+                  child: GestureDetector(
+                    onTap: () => _selectMotivo("Salud"),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      transform: Matrix4.identity()..scale(_chipSizeSalud),
+                      child: _buildChip("Salud", Icons.health_and_safety, Colors.green),
+                    ),
+                  ),
                 ),
-                GestureDetector(
-                  onTap: () => _selectMotivo("Estudio"),
-                  child: _buildChip("Estudio", Icons.book, Colors.blue),
+                MouseRegion(
+                  onEnter: (_) {
+                    setState(() {
+                      _chipSizeEstudio = 1.2;
+                    });
+                  },
+                  onExit: (_) {
+                    setState(() {
+                      _chipSizeEstudio = 1.0;
+                    });
+                  },
+                  child: GestureDetector(
+                    onTap: () => _selectMotivo("Estudio"),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      transform: Matrix4.identity()..scale(_chipSizeEstudio),
+                      child: _buildChip("Estudio", Icons.book, Colors.blue),
+                    ),
+                  ),
                 ),
-                GestureDetector(
-                  onTap: () => _selectMotivo("Laboral"),
-                  child: _buildChip("Laboral", Icons.work, const Color.fromARGB(255, 240, 126, 12)),
+                MouseRegion(
+                  onEnter: (_) {
+                    setState(() {
+                      _chipSizeLaboral = 1.2;
+                    });
+                  },
+                  onExit: (_) {
+                    setState(() {
+                      _chipSizeLaboral = 1.0;
+                    });
+                  },
+                  child: GestureDetector(
+                    onTap: () => _selectMotivo("Laboral"),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      transform: Matrix4.identity()..scale(_chipSizeLaboral),
+                      child: _buildChip("Laboral", Icons.work, const Color.fromARGB(255, 240, 126, 12)),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -240,5 +308,7 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     );
   }
 }
+
+
 
 
