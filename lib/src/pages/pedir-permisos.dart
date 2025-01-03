@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'acept-permisos.dart'; // Importa la pantalla AceptPermisosScreen
 
 class PedirPermisosScreen extends StatefulWidget {
   @override
@@ -131,86 +130,10 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                MouseRegion(
-                  onEnter: (_) {
-                    setState(() {
-                      _chipSizePersonal = 1.2; // Aumenta el tamaño cuando pasa el mouse
-                    });
-                  },
-                  onExit: (_) {
-                    setState(() {
-                      _chipSizePersonal = 1.0; // Vuelve al tamaño normal
-                    });
-                  },
-                  child: GestureDetector(
-                    onTap: () => _selectMotivo("Personal"),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      transform: Matrix4.identity()..scale(_chipSizePersonal),
-                      child: _buildChip("Personal", Icons.bedtime, Colors.red),
-                    ),
-                  ),
-                ),
-                MouseRegion(
-                  onEnter: (_) {
-                    setState(() {
-                      _chipSizeSalud = 1.2;
-                    });
-                  },
-                  onExit: (_) {
-                    setState(() {
-                      _chipSizeSalud = 1.0;
-                    });
-                  },
-                  child: GestureDetector(
-                    onTap: () => _selectMotivo("Salud"),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      transform: Matrix4.identity()..scale(_chipSizeSalud),
-                      child: _buildChip("Salud", Icons.health_and_safety, Colors.green),
-                    ),
-                  ),
-                ),
-                MouseRegion(
-                  onEnter: (_) {
-                    setState(() {
-                      _chipSizeEstudio = 1.2;
-                    });
-                  },
-                  onExit: (_) {
-                    setState(() {
-                      _chipSizeEstudio = 1.0;
-                    });
-                  },
-                  child: GestureDetector(
-                    onTap: () => _selectMotivo("Estudio"),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      transform: Matrix4.identity()..scale(_chipSizeEstudio),
-                      child: _buildChip("Estudio", Icons.book, Colors.blue),
-                    ),
-                  ),
-                ),
-                MouseRegion(
-                  onEnter: (_) {
-                    setState(() {
-                      _chipSizeLaboral = 1.2;
-                    });
-                  },
-                  onExit: (_) {
-                    setState(() {
-                      _chipSizeLaboral = 1.0;
-                    });
-                  },
-                  child: GestureDetector(
-                    onTap: () => _selectMotivo("Laboral"),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      transform: Matrix4.identity()..scale(_chipSizeLaboral),
-                      child: _buildChip("Laboral", Icons.work, const Color.fromARGB(255, 240, 126, 12)),
-                    ),
-                  ),
-                ),
+                _buildAnimatedChip("Personal", Icons.bedtime, Colors.red, () => _chipSizePersonal),
+                _buildAnimatedChip("Salud", Icons.health_and_safety, Colors.green, () => _chipSizeSalud),
+                _buildAnimatedChip("Estudio", Icons.book, Colors.blue, () => _chipSizeEstudio),
+                _buildAnimatedChip("Laboral", Icons.work, const Color.fromARGB(255, 240, 126, 12), () => _chipSizeLaboral),
               ],
             ),
             const Spacer(),
@@ -225,18 +148,17 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
                     );
                     return;
                   }
-                  // Acción para enviar el permiso y navegar a AceptPermisosScreen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AceptPermisosScreen(
-                        motivo: _motivoSeleccionado,
-                        fecha: _selectedDate,
-                        horaSalida: _horaSalida,
-                        horaLlegada: _horaLlegada,
-                      ),
-                    ),
-                  );
+
+                  // Crear la nueva solicitud
+                  final nuevaSolicitud = {
+                    "motivo": _motivoSeleccionado,
+                    "fecha": _selectedDate,
+                    "horaSalida": _horaSalida,
+                    "horaLlegada": _horaLlegada,
+                  };
+
+                  // Regresar la solicitud a la pantalla anterior
+                  Navigator.pop(context, nuevaSolicitud);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -298,7 +220,38 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     );
   }
 
-  // Widget para los chips de motivo
+  // Widget para los chips de motivo con animación
+  Widget _buildAnimatedChip(String label, IconData icon, Color color, Function chipSizeGetter) {
+    return GestureDetector(
+      onTap: () {
+        _selectMotivo(label);
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        transform: Matrix4.identity()..scale(chipSizeGetter()),
+        child: MouseRegion(
+          onEnter: (_) {
+            setState(() {
+              if (label == "Personal") _chipSizePersonal = 1.2;
+              if (label == "Salud") _chipSizeSalud = 1.2;
+              if (label == "Estudio") _chipSizeEstudio = 1.2;
+              if (label == "Laboral") _chipSizeLaboral = 1.2;
+            });
+          },
+          onExit: (_) {
+            setState(() {
+              if (label == "Personal") _chipSizePersonal = 1.0;
+              if (label == "Salud") _chipSizeSalud = 1.0;
+              if (label == "Estudio") _chipSizeEstudio = 1.0;
+              if (label == "Laboral") _chipSizeLaboral = 1.0;
+            });
+          },
+          child: _buildChip(label, icon, color),
+        ),
+      ),
+    );
+  }
+
   Widget _buildChip(String label, IconData icon, Color color) {
     return Chip(
       avatar: Icon(icon, color: Colors.white, size: 18),
@@ -308,6 +261,8 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     );
   }
 }
+
+
 
 
 

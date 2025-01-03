@@ -5,7 +5,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 217, 236, 12), 
+      backgroundColor: const Color.fromARGB(255, 217, 236, 12),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -16,20 +16,20 @@ class LoginScreen extends StatelessWidget {
               width: 80, // Ajusta el tamaño según lo que necesites
               height: 80,
             ),
-            SizedBox(height: 20), // Espaciado entre el ícono y el botón
+            const SizedBox(height: 20), // Espaciado entre el ícono y el botón
             // Botón de Google
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white, // Fondo blanco del botón
                 foregroundColor: Colors.black, // Texto negro
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Espaciado del botón
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Espaciado del botón
               ),
               icon: Image.asset(
                 'assets/images/google.png', // Ruta del logo de Google
                 width: 24,
                 height: 24,
               ),
-              label: Text(
+              label: const Text(
                 'Iniciar sesión con Google',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -38,12 +38,7 @@ class LoginScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AceptPermisosScreen(
-                      motivo: 'Permiso por motivos personales', // Ejemplo de parámetro
-                      fecha: '2024-12-31', // Ejemplo de parámetro
-                      horaSalida: '08:00', // Ejemplo de parámetro
-                      horaLlegada: '17:00', // Ejemplo de parámetro
-                    ),
+                    builder: (context) => AceptPermisosScreen(),
                   ),
                 );
               },
@@ -54,6 +49,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
 
 
 

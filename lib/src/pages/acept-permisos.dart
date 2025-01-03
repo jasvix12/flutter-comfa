@@ -3,24 +3,14 @@ import 'pedir-permisos.dart'; // Importa la pantalla pedir-permisos.dart
 import 'login_screen.dart'; // Asegúrate de importar la pantalla de login
 
 class AceptPermisosScreen extends StatefulWidget {
-  final String motivo;
-  final String fecha;
-  final String horaSalida;
-  final String horaLlegada;
-
-  AceptPermisosScreen({
-    required this.motivo,
-    required this.fecha,
-    required this.horaSalida,
-    required this.horaLlegada,
-  });
-
   @override
   _AceptPermisosScreenState createState() => _AceptPermisosScreenState();
 }
 
 class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<String> solicitudesAprobadas = [];
+  List<Map<String, String>> nuevasSolicitudes = []; // Usamos una lista para almacenar múltiples solicitudes
 
   @override
   void initState() {
@@ -41,7 +31,7 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
         title: const Text("Permisos Comfacauca"),
         leading: GestureDetector(
           onTap: () {
-            _showLogoutDialog(context); // Mostrar el cuadro de diálogo cuando se presiona el logo
+    
           },
           child: Image.asset('assets/images/comlogo.png'), // Solo el logo
         ),
@@ -53,41 +43,80 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
             },
           ),
         ],
-        backgroundColor: const Color.fromARGB(255, 166, 235, 102),
+        backgroundColor: const Color.fromARGB(255, 7, 141, 7),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
+          // Pestaña de solicitudes
           ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              if (nuevasSolicitudes.isNotEmpty)
+                ...nuevasSolicitudes.map((solicitud) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 2,
+                    child: ListTile(
+                      leading: const Icon(Icons.add_box, color: Colors.green),
+                      title: Text("Nueva solicitud: ${solicitud["motivo"]}"),
+                      subtitle: Text(
+                          "Fecha: ${solicitud["fecha"]}, Hora Salida: ${solicitud["horaSalida"]}, Hora Llegada: ${solicitud["horaLlegada"]}"),
+                      onTap: () {
+                        _showSolicitudDialog(context, solicitud); // Pasa la solicitud al diálogo
+                      },
+                    ),
+                  );
+                }).toList()
+              else
+                const Center(
+                  child: Text(
+                    "No hay nuevas solicitudes",
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
                 ),
-                elevation: 2,
-                child: ListTile(
-                  leading: const Icon(Icons.add_box, color: Colors.green),
-                  title: const Text("Nueva solicitud de permiso"),
-                  onTap: () {
-                    // Acción para abrir la solicitud
-                  },
-                ),
-              ),
             ],
           ),
-          Center(
-            child: Text(
-              "Motivo: ${widget.motivo}\nFecha: ${widget.fecha}\nHora de Salida: ${widget.horaSalida}\nHora de Llegada: ${widget.horaLlegada}",
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
+          // Pestaña de solicitudes aprobadas
+          ListView(
+            padding: const EdgeInsets.all(16),
+            children: solicitudesAprobadas.isEmpty
+                ? const [
+                    Center(
+                      child: Text("No hay solicitudes aprobadas",
+                          style: TextStyle(fontSize: 16, color: Colors.grey)),
+                    ),
+                  ]
+                : solicitudesAprobadas.map((solicitud) {
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 2,
+                      child: ListTile(
+                        leading: const Icon(Icons.check, color: Colors.green),
+                        title: Text(solicitud),
+                      ),
+                    );
+                  }).toList(),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _navigateWithAnimation(context); // Navegación con animación
+        onPressed: () async {
+          final result = await Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PedirPermisosScreen(),
+            ),
+          );
+
+          if (result != null && result is Map<String, String>) {
+            setState(() {
+              nuevasSolicitudes.add(result); // Agrega la nueva solicitud a la lista
+            });
+          }
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.green,
@@ -111,7 +140,56 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
     );
   }
 
-  // Método para mostrar el cuadro de diálogo de logout
+  void _showSolicitudDialog(BuildContext context, Map<String, String> solicitud) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Nueva solicitud de permiso"),
+      content: const Text("¿Quieres aceptar esta solicitud de permiso?"),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              nuevasSolicitudes.remove(solicitud); // Elimina la solicitud de la lista
+            });
+            Navigator.pop(context); // Cierra el cuadro de diálogo
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red, // Color de fondo rojo para rechazar
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
+            ),
+          ),
+          child: const Text(
+            "Rechazar",
+            style: TextStyle(color: Colors.white), // Texto blanco
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              solicitudesAprobadas.add("Permiso aprobado para ${solicitud["motivo"]}"); // Agrega la solicitud aprobada
+              nuevasSolicitudes.remove(solicitud); // Elimina la solicitud de la lista de nuevas solicitudes
+            });
+            Navigator.pop(context); // Acepta la solicitud y cierra el cuadro de diálogo
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green, // Color de fondo verde para aceptar
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
+            ),
+          ),
+          child: const Text(
+            "Aceptar",
+            style: TextStyle(color: Colors.white), // Texto blanco
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -171,35 +249,4 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen> with SingleTi
       ),
     );
   }
-
-  // Método para navegar con animación
-  void _navigateWithAnimation(BuildContext context) {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => PedirPermisosScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1.0, 0.0);
-          const end = Offset.zero;
-          const curve = Curves.easeInOut;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          var offsetAnimation = animation.drive(tween);
-          return SlideTransition(position: offsetAnimation, child: child);
-        },
-      ),
-    );
-  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

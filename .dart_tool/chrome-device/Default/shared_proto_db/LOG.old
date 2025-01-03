@@ -1,10 +1,8 @@
-2024/12/31-09:59:27.014 4904 Reusing MANIFEST C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.43711da\flutter_tools_chrome_device.76e32227\Default\shared_proto_db/MANIFEST-000001
-2024/12/31-09:59:27.017 4904 Recovering log #7
-2024/12/31-09:59:27.018 4904 Level-0 table #10: started
-2024/12/31-09:59:27.036 4904 Level-0 table #10: 134394 bytes OK
-2024/12/31-09:59:27.039 4904 Recovering log #10
-2024/12/31-09:59:27.040 4904 Reusing old log C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.43711da\flutter_tools_chrome_device.76e32227\Default\shared_proto_db/000010.log 
-2024/12/31-09:59:27.052 4904 Delete type=0 #3
-2024/12/31-09:59:27.053 4904 Delete type=0 #4
-2024/12/31-09:59:27.053 4904 Delete type=0 #7
-2024/12/31-09:59:27.053 4904 Delete type=2 #11
+2025/01/03-10:51:03.445 2afc Reusing MANIFEST C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.6030ea49\flutter_tools_chrome_device.745dd1ed\Default\shared_proto_db/MANIFEST-000001
+2025/01/03-10:51:03.450 2afc Recovering log #12
+2025/01/03-10:51:03.451 2afc Reusing old log C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.6030ea49\flutter_tools_chrome_device.745dd1ed\Default\shared_proto_db/000012.log 
+2025/01/03-10:51:03.452 2afc Delete type=0 #3
+2025/01/03-10:51:03.452 2afc Delete type=0 #4
+2025/01/03-10:51:03.452 2afc Delete type=0 #7
+2025/01/03-10:51:03.452 2afc Delete type=0 #10
+2025/01/03-10:51:03.452 2afc Delete type=2 #11
