@@ -11,12 +11,14 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
   String _horaSalida = "5:21 PM";
   String _horaLlegada = "5:21 PM";
   String _motivoSeleccionado = "";
+  String? _seccionSeleccionada;
+  String? _autorizadorSeleccionado;
+
   double _chipSizePersonal = 1.0;
   double _chipSizeSalud = 1.0;
   double _chipSizeEstudio = 1.0;
   double _chipSizeLaboral = 1.0;
 
-  // Método para seleccionar una fecha
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -31,7 +33,6 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     }
   }
 
-  // Método para seleccionar una hora
   Future<void> _selectTime(BuildContext context, bool isSalida) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -55,10 +56,12 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     }
   }
 
-  // Método para seleccionar un motivo
   void _selectMotivo(String motivo) {
     setState(() {
       _motivoSeleccionado = motivo;
+      if (motivo != "Laboral") {
+        _seccionSeleccionada = null; // Reiniciar sección si no es "Laboral".
+      }
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Motivo seleccionado: $motivo")),
@@ -74,7 +77,7 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Regresar a la pantalla anterior
+            Navigator.pop(context);
           },
         ),
       ),
@@ -83,37 +86,78 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Fecha y horas
+            // Fecha, horas y sección destino
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () => _selectDate(context),
-                  child: _buildInputCard(
-                    icon: Icons.calendar_today,
-                    label: "Fecha Salida",
-                    value: _selectedDate,
-                    color: Colors.red,
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _selectDate(context),
+                    child: _buildInputCard(
+                      icon: Icons.calendar_today,
+                      label: "Fecha",
+                      value: _selectedDate,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => _selectTime(context, true),
-                  child: _buildInputCard(
-                    icon: Icons.access_time,
-                    label: "Hora Salida",
-                    value: _horaSalida,
-                    color: Colors.green,
+                const SizedBox(width: 8),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _selectTime(context, true),
+                    child: _buildInputCard(
+                      icon: Icons.access_time,
+                      label: "Salida",
+                      value: _horaSalida,
+                      color: Colors.green,
+                    ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => _selectTime(context, false),
-                  child: _buildInputCard(
-                    icon: Icons.access_time,
-                    label: "Hora Llegada",
-                    value: _horaLlegada,
-                    color: Colors.blue,
+                const SizedBox(width: 8),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _selectTime(context, false),
+                    child: _buildInputCard(
+                      icon: Icons.access_time,
+                      label: "Llegada",
+                      value: _horaLlegada,
+                      color: Colors.blue,
+                    ),
                   ),
                 ),
+                if (_motivoSeleccionado == "Laboral")
+                  const SizedBox(width: 8),
+                if (_motivoSeleccionado == "Laboral")
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return ListView(
+                              children: ["A", "B", "C"].map((seccion) {
+                                return ListTile(
+                                  title: Text("Sección $seccion"),
+                                  onTap: () {
+                                    setState(() {
+                                      _seccionSeleccionada = seccion;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              }).toList(),
+                            );
+                          },
+                        );
+                      },
+                      child: _buildInputCard(
+                        icon: Icons.location_city,
+                        label: "Destino",
+                        value: _seccionSeleccionada ?? "Seleccionar",
+                        color: const Color.fromARGB(255, 240, 126, 12),
+                      ),
+                    ),
+                  ),
               ],
             ),
             const SizedBox(height: 20),
@@ -121,20 +165,48 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
             // Motivos
             const Text(
               "Motivo de Permiso",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildAnimatedChip("Personal", Icons.bedtime, Colors.red, () => _chipSizePersonal),
-                _buildAnimatedChip("Salud", Icons.health_and_safety, Colors.green, () => _chipSizeSalud),
-                _buildAnimatedChip("Estudio", Icons.book, Colors.blue, () => _chipSizeEstudio),
-                _buildAnimatedChip("Laboral", Icons.work, const Color.fromARGB(255, 240, 126, 12), () => _chipSizeLaboral),
+                _buildAnimatedChip("Personal", Icons.bedtime, Colors.red,
+                    () => _chipSizePersonal),
+                _buildAnimatedChip("Salud", Icons.health_and_safety,
+                    Colors.green, () => _chipSizeSalud),
+                _buildAnimatedChip("Estudio", Icons.book, Colors.blue,
+                    () => _chipSizeEstudio),
+                _buildAnimatedChip(
+                    "Laboral",
+                    Icons.work,
+                    const Color.fromARGB(255, 240, 126, 12),
+                    () => _chipSizeLaboral),
               ],
+            ),
+            const SizedBox(height: 20),
+
+            // Autorizador
+            DropdownButtonFormField<String>(
+              value: _autorizadorSeleccionado,
+              items: [
+                "Eider Matallana",
+                "Rodrigo Arturo Carreño Vallejo"
+              ].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              decoration: const InputDecoration(
+                labelText: "Autorizador",
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _autorizadorSeleccionado = value;
+                });
+              },
             ),
             const Spacer(),
 
@@ -142,22 +214,27 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  if (_motivoSeleccionado.isEmpty) {
+                  if (_motivoSeleccionado.isEmpty ||
+                      (_motivoSeleccionado == "Laboral" &&
+                          _seccionSeleccionada == null) ||
+                      _autorizadorSeleccionado == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Por favor, selecciona un motivo")),
+                      const SnackBar(
+                          content: Text(
+                              "Por favor, completa todos los campos antes de enviar.")),
                     );
                     return;
                   }
 
-                  // Crear la nueva solicitud
                   final nuevaSolicitud = {
                     "motivo": _motivoSeleccionado,
                     "fecha": _selectedDate,
                     "horaSalida": _horaSalida,
                     "horaLlegada": _horaLlegada,
+                    "seccion": _seccionSeleccionada,
+                    "autorizador": _autorizadorSeleccionado!,
                   };
 
-                  // Regresar la solicitud a la pantalla anterior
                   Navigator.pop(context, nuevaSolicitud);
                 },
                 style: ElevatedButton.styleFrom(
@@ -183,7 +260,6 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     );
   }
 
-  // Widget para tarjetas de entrada (fecha/hora)
   Widget _buildInputCard({
     required IconData icon,
     required String label,
@@ -196,23 +272,25 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
       ),
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color),
-            const SizedBox(height: 5),
+            Icon(icon, color: color, size: 20),
+            const SizedBox(height: 4),
             Text(
               label,
-              style: const TextStyle(fontSize: 14, color: Colors.black54),
+              style: const TextStyle(fontSize: 12, color: Colors.black54),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 4),
             Text(
               value,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 color: color,
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -220,8 +298,12 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     );
   }
 
-  // Widget para los chips de motivo con animación
-  Widget _buildAnimatedChip(String label, IconData icon, Color color, Function chipSizeGetter) {
+  Widget _buildAnimatedChip(
+    String label,
+    IconData icon,
+    Color color,
+    Function chipSizeGetter,
+  ) {
     return GestureDetector(
       onTap: () {
         _selectMotivo(label);
@@ -255,12 +337,17 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
   Widget _buildChip(String label, IconData icon, Color color) {
     return Chip(
       avatar: Icon(icon, color: Colors.white, size: 18),
-      label: Text(label),
       backgroundColor: color,
-      labelStyle: const TextStyle(color: Colors.white),
+      label: Text(
+        label,
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+      ),
     );
   }
 }
+
+
+
 
 
 

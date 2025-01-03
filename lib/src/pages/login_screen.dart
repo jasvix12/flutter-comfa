@@ -13,8 +13,8 @@ class LoginScreen extends StatelessWidget {
             // Icono de perfil en la parte superior
             Image.asset(
               'assets/images/perfil.png', // Ruta del ícono de perfil
-              width: 80, // Ajusta el tamaño según lo que necesites
-              height: 80,
+              width: 120, // Ajusta el tamaño según lo que necesites
+              height: 120,
             ),
             const SizedBox(height: 20), // Espaciado entre el ícono y el botón
             // Botón de Google
