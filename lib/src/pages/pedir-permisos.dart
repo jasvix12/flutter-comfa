@@ -186,28 +186,28 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
             ),
             const SizedBox(height: 20),
 
-            // Autorizador
-            DropdownButtonFormField<String>(
-              value: _autorizadorSeleccionado,
-              items: [
-                "Eider Matallana",
-                "Rodrigo Arturo Carreño Vallejo"
-              ].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              decoration: const InputDecoration(
-                labelText: "Autorizador",
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  _autorizadorSeleccionado = value;
-                });
-              },
-            ),
+          DropdownButtonFormField<String>(
+  value: _autorizadorSeleccionado,
+  items: (_motivoSeleccionado == "Personal"
+          ? ["Eider Matallana"]
+          : ["Eider Matallana", "Rodrigo Arturo Carreño Vallejo"])
+      .map((String value) {
+    return DropdownMenuItem<String>(
+      value: value,
+      child: Text(value),
+    );
+  }).toList(),
+  decoration: const InputDecoration(
+    labelText: "Autorizador",
+    border: OutlineInputBorder(),
+  ),
+  onChanged: (value) {
+    setState(() {
+      _autorizadorSeleccionado = value;
+    });
+  },
+),
+
             const Spacer(),
 
             // Botón de enviar
