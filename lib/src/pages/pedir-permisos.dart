@@ -226,16 +226,17 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
                     return;
                   }
 
-                  final nuevaSolicitud = {
-                    "motivo": _motivoSeleccionado,
-                    "fecha": _selectedDate,
-                    "horaSalida": _horaSalida,
-                    "horaLlegada": _horaLlegada,
-                    "seccion": _seccionSeleccionada,
-                    "autorizador": _autorizadorSeleccionado!,
-                  };
+                 final nuevaSolicitud = {
+  "motivo": _motivoSeleccionado,
+  "fecha": _selectedDate,
+  "horaSalida": _horaSalida,
+  "horaLlegada": _horaLlegada,
+  "seccion": _seccionSeleccionada ?? "Ninguna",  // Valor por defecto
+  "autorizador": _autorizadorSeleccionado ?? "Desconocido",  // Valor por defecto
+};
 
-                  Navigator.pop(context, nuevaSolicitud);
+Navigator.pop(context, nuevaSolicitud);  // Enviar la solicitud
+
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
