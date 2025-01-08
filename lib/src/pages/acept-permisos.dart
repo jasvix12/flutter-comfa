@@ -42,7 +42,7 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen>
             },
           ),
         ],
-        backgroundColor: const Color.fromARGB(255, 7, 141, 7),
+        backgroundColor: const Color.fromRGBO(0, 107, 44, 1),
       ),
       body: TabBarView(
         controller: _tabController,
@@ -126,7 +126,7 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen>
     }
   },
   child: const Icon(Icons.add),
-  backgroundColor: Colors.green,
+  backgroundColor: const Color.fromARGB(255, 65, 243, 71),
 ),
 
 
@@ -239,7 +239,7 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen>
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
+              backgroundColor: const Color.fromARGB(255, 51, 192, 55),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),

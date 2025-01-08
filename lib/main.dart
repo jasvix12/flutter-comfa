@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Arial',
-                color: Colors.blue[900], // Azul oscuro
+                color: const Color.fromARGB(255, 0, 53, 106), // Azul oscuro
               ),
             ),
           ],

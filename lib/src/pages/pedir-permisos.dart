@@ -72,7 +72,7 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 76, 175, 80),
+        backgroundColor: const Color.fromRGBO(0, 107, 44, 1),
         title: const Text("Solicitud de Permiso"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -227,19 +227,19 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
                   }
 
                  final nuevaSolicitud = {
-  "motivo": _motivoSeleccionado,
-  "fecha": _selectedDate,
-  "horaSalida": _horaSalida,
-  "horaLlegada": _horaLlegada,
-  "seccion": _seccionSeleccionada ?? "Ninguna",  // Valor por defecto
-  "autorizador": _autorizadorSeleccionado ?? "Desconocido",  // Valor por defecto
-};
+                 "motivo": _motivoSeleccionado,
+                 "fecha": _selectedDate,
+                 "horaSalida": _horaSalida,
+                 "horaLlegada": _horaLlegada,
+                 "seccion": _seccionSeleccionada ?? "Ninguna",  // Valor por defecto
+                 "autorizador": _autorizadorSeleccionado ?? "Desconocido",  // Valor por defecto
+                 };
 
-Navigator.pop(context, nuevaSolicitud);  // Enviar la solicitud
+                Navigator.pop(context, nuevaSolicitud);  // Enviar la solicitud
 
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: const Color.fromARGB(255, 35, 219, 22),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 30,
                     vertical: 15,
