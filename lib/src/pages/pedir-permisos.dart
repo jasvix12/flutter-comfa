@@ -81,7 +81,11 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(0, 107, 44, 1),
-        title: const Text("Solicitud de Permiso"),
+        title: Center(
+          child: const Text("Solicitud de Permiso",
+          style: TextStyle( fontSize: 22),
+          ),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

@@ -28,8 +28,14 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        title: const Text("Permisos Comfacauca"),
+        title:Center( //Usamos center para centrar el titulo
+          child:const Text(
+            "Permisos Comfacauca",
+            style: TextStyle(fontSize: 22),
+          ),
+        ),
         leading: GestureDetector(
           onTap: () {},
           child: Image.asset('assets/images/comlogo.png'),
@@ -200,54 +206,77 @@ class _AceptPermisosScreenState extends State<AceptPermisosScreen>
   }
 
   void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      backgroundColor: Colors.white,
+      title: Center( // Centrar el título
+        child: const Text(
           'Cerrar sesión',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.redAccent,
+            fontSize: 18,
           ),
         ),
-        content: const Text(
-          '¿Estás seguro de que deseas cerrar sesión?',
-          style: TextStyle(color: Colors.black87),
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 244, 19, 19),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            child: const Text('Cancelar', style: TextStyle(color: Colors.white)),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 51, 192, 55),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            child: const Text('Aceptar', style: TextStyle(color: Colors.white)),
-          ),
-        ],
       ),
-    );
-  }
+      content: SizedBox(  // Usar SizedBox para limitar el tamaño
+        width: 300,  // Establecer un ancho específico para el cuadro
+        child: Column(
+          mainAxisSize: MainAxisSize.min,  // Evitar que se estire el cuadro
+          children: const [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                '¿Estás seguro de que deseas cerrar sesión?',
+                textAlign: TextAlign.center,  // Centrar el texto
+                style: TextStyle(color: Colors.black87),
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,  // Centrar los botones
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 244, 19, 19),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+               minimumSize: Size(120, 50), //Ajustamos el tamaño minimo del boton
+              ),
+              child: const Text('Cancelar', style: TextStyle(color: Colors.white)),
+            ),
+            const SizedBox(width: 16),  // Espaciado entre botones
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 51, 192, 55),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                fixedSize: Size(100, 40), // Tamaño fijo para el botón
+              ),
+              child: const Text('Aceptar', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+ }
 }
