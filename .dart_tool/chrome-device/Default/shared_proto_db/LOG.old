@@ -1,23 +1,2 @@
-2025/01/09-09:42:50.827 1a1c Reusing MANIFEST C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.38cf49ff\flutter_tools_chrome_device.c46dc308\Default\shared_proto_db/MANIFEST-000001
-2025/01/09-09:42:50.836 1a1c Recovering log #35
-2025/01/09-09:42:50.838 1a1c Reusing old log C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.38cf49ff\flutter_tools_chrome_device.c46dc308\Default\shared_proto_db/000035.log 
-2025/01/09-09:42:50.839 1a1c Delete type=0 #3
-2025/01/09-09:42:50.839 1a1c Delete type=0 #4
-2025/01/09-09:42:50.839 1a1c Delete type=0 #7
-2025/01/09-09:42:50.839 1a1c Delete type=2 #8
-2025/01/09-09:42:50.839 1a1c Delete type=2 #10
-2025/01/09-09:42:50.839 1a1c Delete type=0 #10
-2025/01/09-09:42:50.839 1a1c Delete type=2 #11
-2025/01/09-09:42:50.839 1a1c Delete type=0 #12
-2025/01/09-09:42:50.846 1a1c Delete type=2 #13
-2025/01/09-09:42:50.846 1a1c Delete type=0 #15
-2025/01/09-09:42:50.846 1a1c Delete type=2 #16
-2025/01/09-09:42:50.846 1a1c Delete type=0 #18
-2025/01/09-09:42:50.846 1a1c Delete type=2 #20
-2025/01/09-09:42:50.846 1a1c Delete type=0 #22
-2025/01/09-09:42:50.846 1a1c Delete type=2 #23
-2025/01/09-09:42:50.846 1a1c Delete type=0 #25
-2025/01/09-09:42:50.846 1a1c Delete type=2 #26
-2025/01/09-09:42:50.846 1a1c Delete type=0 #28
-2025/01/09-09:42:50.846 1a1c Delete type=2 #29
-2025/01/09-09:42:50.846 1a1c Delete type=0 #31
+2025/01/13-09:59:46.580 42a0 Creating DB C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.efe8e328\flutter_tools_chrome_device.f3e350ef\Default\shared_proto_db since it was missing.
+2025/01/13-09:59:46.637 42a0 Reusing MANIFEST C:\Users\ADMIN\AppData\Local\Temp\flutter_tools.efe8e328\flutter_tools_chrome_device.f3e350ef\Default\shared_proto_db/MANIFEST-000001

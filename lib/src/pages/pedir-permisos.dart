@@ -68,6 +68,14 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     );
   }
 
+    bool get _isFormValid {
+    return _motivoSeleccionado.isNotEmpty &&
+        _horaSalida.isNotEmpty &&
+        _horaLlegada.isNotEmpty &&
+        _selectedDate.isNotEmpty &&
+        (_motivoSeleccionado != "Laboral" || _seccionSeleccionada != null);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,7 +193,8 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
               ],
             ),
             const SizedBox(height: 20),
-
+            
+            if(_isFormValid)
           DropdownButtonFormField<String>(
   value: _autorizadorSeleccionado,
   items: (_motivoSeleccionado == "Personal"
@@ -346,7 +355,6 @@ class _PedirPermisosScreenState extends State<PedirPermisosScreen> {
     );
   }
 }
-
 
 
 
